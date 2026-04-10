@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fiche prise d'appel poids lourd — Euromaster</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,sans-serif;background:#f4f3ef;margin:0;padding:2rem 1rem;color:#1a1a18}
+    .container{max-width:700px;margin:0 auto}
+    .section{background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px}
+    .stitle{font-size:11px;font-weight:500;letter-spacing:.06em;color:#5f5e5a;text-transform:uppercase;margin:0 0 12px}
+    .fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+    .f{display:flex;flex-direction:column;gap:4px}
+    label{font-size:12px;color:#5f5e5a}
+    input,select,textarea{font-size:14px;padding:7px 10px;border:0.5px solid rgba(0,0,0,.12);border-radius:8px;background:#f4f3ef;color:#1a1a18;width:100%;outline:none;font-family:inherit}
+    input:focus,select:focus,textarea:focus{border-color:rgba(0,0,0,.4)}
+    textarea{resize:vertical;min-height:64px}
+    .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:0.5px solid rgba(0,0,0,.12)}
+    .htitle{font-size:16px;font-weight:500;margin:0}
+    .hmeta{font-size:12px;color:#5f5e5a}
+    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:4px 10px;border-radius:8px;background:#faeeda;color:#854f0b}
+    .dot{width:7px;height:7px;border-radius:50%;background:#ba7517;display:inline-block}
+    .pos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:6px}
+    .pb{padding:6px 4px;border:0.5px solid rgba(0,0,0,.12);border-radius:8px;background:#f4f3ef;color:#1a1a18;font-size:12px;font-weight:500;cursor:pointer;text-align:center;font-family:inherit}
+    .pb:hover{background:#e8e7e3}
+    .pb.on{background:#1a1a18;color:#fff;border-color:#1a1a18}
+    .elabel{font-size:11px;color:#5f5e5a;margin:10px 0 5px}
+    .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+    .tag{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;padding:3px 8px;border-radius:8px;background:#f4f3ef;border:0.5px solid rgba(0,0,0,.2);color:#1a1a18}
+    .tx{cursor:pointer;font-size:10px;color:#5f5e5a}
+    .tx:hover{color:#1a1a18}
+    .nopos{font-size:12px;color:#5f5e5a;margin-top:6px}
+    .btn-row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+    .bprim{padding:8px 18px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;background:#1a1a18;color:#fff;border:none}
+    .bprim:hover{opacity:.85}
+    .bprim:disabled{opacity:.4;cursor:not-allowed}
+    .bsec{padding:8px 18px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;background:transparent;color:#1a1a18;border:0.5px solid rgba(0,0,0,.3)}
+    .bsec:hover{background:#f4f3ef}
+    .toast{display:none;align-items:center;gap:8px;font-size:13px;font-weight:500;padding:10px 16px;border-radius:8px;margin-top:14px}
+    .toast.show{display:flex}
+    .toast.ok{background:#1a1a18;color:#fff}
+    .toast.err{background:#fcebeb;color:#a32d2d;border:0.5px solid rgba(163,45,45,.2)}
+    .ac-wrap{position:relative}
+    .ac-list{position:absolute;top:100%;left:0;right:0;background:#fff;border:0.5px solid rgba(0,0,0,.2);border-radius:8px;z-index:99;margin-top:2px;max-height:200px;overflow-y:auto}
+    .ac-item{padding:8px 12px;font-size:13px;color:#1a1a18;cursor:pointer;border-bottom:0.5px solid rgba(0,0,0,.08)}
+    .ac-item:last-child{border-bottom:none}
+    .ac-item:hover{background:#f4f3ef}
+    .user-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:8px;margin-bottom:12px;font-size:13px}
+    .user-bar img{width:28px;height:28px;border-radius:50%}
+    .user-bar span{flex:1;color:#1a1a18;font-weight:500}
+    .user-bar button{font-size:12px;padding:4px 10px;border-radius:6px;border:0.5px solid rgba(0,0,0,.2);background:transparent;cursor:pointer;font-family:inherit;color:#5f5e5a}
+    .user-bar button:hover{background:#f4f3ef}
+    #login-btn{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;border:0.5px solid rgba(0,0,0,.2);background:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;margin-bottom:12px}
+    #login-btn svg{width:18px;height:18px}
+    #login-btn:hover{background:#f4f3ef}
+    @media print{body{background:#fff;padding:0}.btn-row{display:none}.user-bar{display:none}#login-btn{display:none}}
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+    <span class="badge"><span class="dot"></span> En cours de saisie</span>
+  </div>
+
+  <div id="auth-area">
+    <button id="login-btn" onclick="signIn()">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      <span id="login-label">Se connecter avec Google</span>
+    </button>
+  </div>
+
+  <div id="user-bar" class="user-bar" style="display:none">
+    <img id="user-avatar" src="" alt=""/>
+    <span id="user-name"></span>
+    <button onclick="signOut()">Déconnexion</button>
+  </div>
+
+  <div class="section">
+    <div class="header">
+      <div>
+        <p class="htitle">Fiche prise d'appel poids lourd — Euromaster</p>
+        <p class="hmeta" id="dt"></p>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <label style="font-size:12px;color:#5f5e5a">Type d'intervention</label>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <button class="pb" id="ti-dep" onclick="selectTI('Dépannage')">Dépannage</button>
+        <button class="pb" id="ti-site" onclick="selectTI('Intervention sur site')">Intervention sur site</button>
+        <button class="pb" id="ti-centre" onclick="selectTI('Intervention au centre')">Intervention au centre</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="stitle">Opérateur</p>
+    <div class="fg">
+      <div class="f">
+        <label>Nom de l'opérateur</label>
+        <select id="operateur" onchange="updateOperateur()">
+          <option value="">— Sélectionner —</option>
+          <option value="Terry">Terry</option>
+          <option value="Nohade">Nohade</option>
+          <option value="Sonia">Sonia</option>
+          <option value="Cedric">Cédric</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="stitle">Client</p>
+    <div class="fg">
+      <div class="f"><label>Société</label><input type="text" id="societe" placeholder="Nom de la société"/></div>
+      <div class="f"><label>Nom donneur d'ordre</label><input type="text" id="ordre-nom" placeholder="Prénom Nom"/></div>
+      <div class="f"><label>Téléphone donneur d'ordre</label><input type="tel" id="ordre-tel" placeholder="+33 6 00 00 00 00"/></div>
+    </div>
+    <div class="fg" style="margin-top:10px">
+      <div class="f"><label>Nom du chauffeur</label><input type="text" id="chauffeur-nom" placeholder="Prénom Nom"/></div>
+      <div class="f"><label>Téléphone chauffeur</label><input type="tel" id="chauffeur-tel" placeholder="+33 6 00 00 00 00"/></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="stitle">Véhicule</p>
+    <div class="fg">
+      <div class="f">
+        <label>Type</label>
+        <select id="type-vehicule">
+          <option value="">— Sélectionner —</option>
+          <option>Camion porteur</option>
+          <option>Remorque</option>
+          <option>Tracteur routier</option>
+          <option>Bus / Autocar</option>
+          <option>Tracteur agricole</option>
+          <option>Autre PL</option>
+        </select>
+      </div>
+      <div class="f"><label>Immatriculation</label><input type="text" id="immat" placeholder="AB-123-CD" style="text-transform:uppercase"/></div>
+      <div class="f"><label>Dimension</label><input type="text" id="dimension" placeholder="315/70 R22.5"/></div>
+      <div class="f"><label>Marque / Modèle</label><input type="text" id="marque" placeholder="Michelin X Line Energy"/></div>
+      <div class="f">
+        <label>Raison du dépannage</label>
+        <select id="raison">
+          <option value="">— Sélectionner —</option>
+          <option>Éclatement</option>
+          <option>Crevaison</option>
+          <option>Crevaison lente</option>
+          <option>Pneu décollé de la jante</option>
+          <option>Usure anormale</option>
+          <option>Coupure / Accroc</option>
+          <option>Autre</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <label style="font-size:12px;color:#5f5e5a">Positions pneu <span style="font-weight:400;font-size:11px">(sélection multiple)</span></label>
+      <div id="pos-buttons" style="margin-top:8px"></div>
+      <div class="nopos" id="nopos">Aucune position sélectionnée</div>
+      <div class="tags" id="pos-tags"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="stitle">Lieu d'intervention</p>
+    <div class="fg">
+      <div class="f" style="grid-column:1/-1">
+        <label>Adresse</label>
+        <div class="ac-wrap">
+          <input type="text" id="adresse" placeholder="Saisir une adresse..." autocomplete="off" oninput="acSearch(this.value)"/>
+          <div class="ac-list" id="ac-list" style="display:none"></div>
+        </div>
+      </div>
+      <div class="f"><label>Code postal</label><input type="text" id="cp" placeholder="75000" maxlength="5"/></div>
+      <div class="f"><label>Ville</label><input type="text" id="ville" placeholder="Paris"/></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="stitle">Intervention</p>
+    <div class="fg">
+      <div class="f">
+        <label>Centre Euromaster</label>
+        <select id="centre">
+          <option value="">— Sélectionner —</option>
+          <option>Antony</option>
+          <option>Coignières</option>
+          <option>Le Blanc-Mesnil</option>
+          <option>Villeneuve-la-Garenne</option>
+          <option>Lagny-sur-Marne</option>
+          <option>Coulommiers</option>
+          <option>Provins</option>
+          <option>Vaux-le-Pénil</option>
+          <option>Montereau-Fault-Yonne</option>
+          <option>Étampes</option>
+        </select>
+      </div>
+      <div class="f"><label>Technicien</label><input type="text" id="technicien" placeholder="Prénom Nom"/></div>
+      <div class="f"><label>ETA</label><input type="time" id="eta"/></div>
+    </div>
+    <div class="f" style="margin-top:10px">
+      <label>Notes</label>
+      <textarea id="notes" placeholder="Observations, difficultés d'accès, matériel nécessaire..."></textarea>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="bprim" id="btn-generer" onclick="generer()">Générer et envoyer sur Drive</button>
+    <button class="bsec" onclick="reinit()">Réinitialiser</button>
+  </div>
+
+  <div class="toast" id="toast">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span id="toast-msg"></span>
+  </div>
+
+  <div id="confirm-card" style="display:none;background:#fff;border:0.5px solid rgba(0,0,0,.12);border-radius:12px;padding:1rem 1.25rem;margin-top:12px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <div style="width:36px;height:36px;border-radius:50%;background:#eaf3de;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#3b6d11" stroke-width="1.2"/><path d="M5 8l2 2 4-4" stroke="#3b6d11" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <p style="margin:0;font-size:14px;font-weight:500;color:#1a1a18">Fiche envoyée avec succès</p>
+        <p style="margin:0;font-size:12px;color:#5f5e5a" id="confirm-time"></p>
+      </div>
+    </div>
+    <div style="background:#f4f3ef;border-radius:8px;padding:10px 12px;font-size:13px;display:grid;grid-template-columns:auto 1fr;gap:4px 12px">
+      <span style="color:#5f5e5a">Fichier</span><span id="confirm-filename" style="color:#1a1a18;font-weight:500;word-break:break-all"></span>
+      <span style="color:#5f5e5a">Dossier</span><span id="confirm-folder" style="color:#1a1a18;font-weight:500"></span>
+      <span style="color:#5f5e5a">Opérateur</span><span id="confirm-operateur" style="color:#1a1a18;font-weight:500"></span>
+    </div>
+  </div>
+
+</div>
+<script>
+  const CLIENT_ID = '318484741831-uol2ncqbcun3slekav2i5eclqlhmfdnp.apps.googleusercontent.com';
+  const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+
+  const FOLDERS = {
+    'Terry':  '1Q8eNTQaZbRIsdik_YyUR6r4yIymNxiOc',
+    'Nohade': '1foT_3AnFKuDDfXQRC3tsQ9NadQr1DVpa',
+    'Sonia':  '1JKT-ClqcDFnogW_CLhOGLLQzAMNjeiTb',
+    'Cedric': '1r0W7dLHrUoQeNf6ZyTf1KHWWIW9j3omr'
+  };
+
+  let accessToken = null;
+  let tokenExpiry = null;
+  let tokenClient = null;
+  const SAVED_USER_KEY = 'em_saved_user';
+
+  function saveUser(u){
+    try{ localStorage.setItem(SAVED_USER_KEY, JSON.stringify({name:u.name||u.email, picture:u.picture||''})); }catch(e){}
+  }
+  function loadSavedUser(){
+    try{ return JSON.parse(localStorage.getItem(SAVED_USER_KEY)||'null'); }catch(e){ return null; }
+  }
+  function clearSavedUser(){
+    try{ localStorage.removeItem(SAVED_USER_KEY); }catch(e){}
+  }
+
+  function refreshTokenSilently(){
+    return new Promise((resolve, reject) => {
+      tokenClient.callback = (resp) => {
+        if(resp.error){ reject(resp.error); return; }
+        accessToken = resp.access_token;
+        tokenExpiry = Date.now() + 55 * 60 * 1000;
+        resolve();
+      };
+      tokenClient.requestAccessToken({prompt:''});
+    });
+  }
+
+  async function ensureToken(){
+    if(!accessToken) throw new Error('non connecté');
+    if(tokenExpiry && Date.now() > tokenExpiry){
+      await refreshTokenSilently();
+    }
+  }
+
+  function updateClock(){
+    const now = new Date();
+    document.getElementById('dt').textContent =
+      now.toLocaleDateString('fr-FR') + ' — ' + now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  function showUserBar(name, picture){
+    document.getElementById('user-name').textContent = name;
+    document.getElementById('user-avatar').src = picture;
+    document.getElementById('user-bar').style.display='flex';
+    document.getElementById('auth-area').style.display='none';
+  }
+
+  function initGoogle(){
+    if(typeof google === 'undefined' || !google.accounts){
+      setTimeout(initGoogle, 100); return;
+    }
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES,
+      callback: (resp) => {
+        if(resp.error){ showToast('Erreur de connexion Google', 'err'); return; }
+        accessToken = resp.access_token;
+        tokenExpiry = Date.now() + 55 * 60 * 1000;
+        fetchUserInfo();
+      }
+    });
+
+    // Auto-reconnect if user was previously connected
+    const saved = loadSavedUser();
+    if(saved){
+      document.getElementById('login-label').textContent = 'Reprendre la session — ' + saved.name;
+      showUserBar(saved.name, saved.picture);
+      // Try silent token refresh immediately
+      refreshTokenSilently().catch(() => {
+        // Silent failed — show reconnect button
+        document.getElementById('user-bar').style.display='none';
+        document.getElementById('auth-area').style.display='block';
+        document.getElementById('login-label').textContent = 'Reprendre la session — ' + saved.name;
+      });
+    }
+  }
+  initGoogle();
+
+  function signIn(){
+    const prompt = loadSavedUser() ? '' : 'consent';
+    tokenClient.requestAccessToken({prompt});
+  }
+
+  function signOut(){
+    google.accounts.oauth2.revoke(accessToken, ()=>{});
+    accessToken = null;
+    clearSavedUser();
+    document.getElementById('user-bar').style.display='none';
+    document.getElementById('auth-area').style.display='block';
+    document.getElementById('login-label').textContent = 'Se connecter avec Google';
+  }
+
+  function fetchUserInfo(){
+    fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers:{ Authorization: `Bearer ${accessToken}` }
+    }).then(r=>r.json()).then(u=>{
+      saveUser(u);
+      showUserBar(u.name || u.email, u.picture || '');
+    });
+  }
+
+  let tiSelected = '';
+  function selectTI(val){
+    tiSelected = val;
+    ['ti-dep','ti-site','ti-centre'].forEach(id=>{
+      const b=document.getElementById(id);
+      if(b) b.classList.toggle('on', b.textContent===val);
+    });
+  }
+
+  function updateOperateur(){}
+
+  const positions = [];
+  for(let e=1;e<=6;e++){
+    const sides = e===1?['G','D']:['GI','GE','DI','DE'];
+    sides.forEach(s=>positions.push({code:`${e}${s.toLowerCase()}`,label:`${e}${s}`}));
+  }
+  positions.push({code:'sec',label:'Sec.'});
+
+  const sel = new Set();
+
+  const fullName = code => {
+    if(code==='sec') return 'Roue de secours';
+    const n=parseInt(code), s=code.replace(/^\d+/,'');
+    const m={g:'Gauche',d:'Droit',gi:'Gauche int.',ge:'Gauche ext.',di:'Droit int.',de:'Droit ext.'};
+    return `Ess. ${n} — ${m[s]||s.toUpperCase()}`;
+  };
+
+  function renderPositions(){
+    const c=document.getElementById('pos-buttons');
+    let html='',lastE=0,i=0;
+    while(i<positions.length){
+      const p=positions[i];
+      const on=sel.has(p.code)?' on':'';
+      if(p.code==='sec'){
+        html+=`<div class="elabel">Secours</div><div class="pos-grid"><button class="pb${on}" onclick="toggleP('${p.code}')">${p.label}</button></div>`;
+        i++;
+      } else {
+        const n=parseInt(p.code);
+        if(n!==lastE){
+          if(lastE) html+=`</div>`;
+          lastE=n;
+          html+=`<div class="elabel">Essieu ${n}</div><div class="pos-grid">`;
+        }
+        html+=`<button class="pb${on}" onclick="toggleP('${p.code}')">${p.label}</button>`;
+        i++;
+      }
+    }
+    html+=`</div>`;
+    c.innerHTML=html;
+  }
+
+  function renderTags(){
+    const t=document.getElementById('pos-tags');
+    const np=document.getElementById('nopos');
+    if(!sel.size){np.style.display='block';t.innerHTML='';return;}
+    np.style.display='none';
+    t.innerHTML=[...sel].map(c=>`<span class="tag">${fullName(c)}<span class="tx" onclick="toggleP('${c}')">✕</span></span>`).join('');
+  }
+
+  function toggleP(code){
+    sel.has(code)?sel.delete(code):sel.add(code);
+    renderPositions(); renderTags();
+  }
+
+  renderPositions(); renderTags();
+
+  let acTimer=null;
+  function acSearch(q){
+    clearTimeout(acTimer);
+    const list=document.getElementById('ac-list');
+    if(q.length<3){list.style.display='none';return;}
+    acTimer=setTimeout(()=>{
+      fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(q)}&limit=5`)
+        .then(r=>r.json())
+        .then(d=>{
+          if(!d.features||!d.features.length){list.style.display='none';return;}
+          list.innerHTML=d.features.map(f=>{
+            const p=f.properties;
+            const n=encodeURIComponent(p.name||'');
+            const ci=encodeURIComponent(p.city||'');
+            const cp=p.postcode||'';
+            return `<div class="ac-item" onclick="pickAddr('${n}','${cp}','${ci}')">${p.label}</div>`;
+          }).join('');
+          list.style.display='block';
+        }).catch(()=>{list.style.display='none';});
+    },300);
+  }
+
+  function pickAddr(name,cp,city){
+    document.getElementById('adresse').value=decodeURIComponent(name);
+    document.getElementById('cp').value=cp;
+    document.getElementById('ville').value=decodeURIComponent(city);
+    document.getElementById('ac-list').style.display='none';
+  }
+
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.ac-wrap')) document.getElementById('ac-list').style.display='none';
+  });
+
+  function get(id){return document.getElementById(id)?.value?.trim()||'—';}
+
+  function slug(s){
+    return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[^a-zA-Z0-9]+/g,'_').replace(/^_|_$/g,'').toLowerCase()||'inconnu';
+  }
+
+  function showToast(msg, type='ok'){
+    const t=document.getElementById('toast');
+    t.className='toast show '+(type==='err'?'err':'ok');
+    document.getElementById('toast-msg').textContent=msg;
+    if(type==='ok') setTimeout(()=>t.classList.remove('show'),5000);
+  }
+
+  async function generer(){
+    const operateur = get('operateur');
+    if(operateur==='—'||!operateur){
+      showToast('Veuillez sélectionner un opérateur', 'err'); return;
+    }
+    if(!accessToken){
+      showToast('Veuillez vous connecter avec Google', 'err'); return;
+    }
+    try { await ensureToken(); } catch(e){
+      showToast('Session expirée, veuillez vous reconnecter', 'err'); return;
+    }
+
+    const societe=get('societe');
+    const posLabel=sel.size?[...sel].map(fullName).join(', '):'—';
+    const ts=new Date();
+    const dateStr=ts.toLocaleDateString('fr-FR')+' — '+ts.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    const hFile=ts.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}).replace(':', 'h');
+
+    const fiche=
+`=== FICHE PRISE D'APPEL POIDS LOURD — EUROMASTER ===
+Date/heure appel  : ${dateStr}
+Opérateur         : ${operateur}
+Type intervention : ${tiSelected||'—'}
+CLIENT
+Société           : ${societe}
+Donneur d'ordre   : ${get('ordre-nom')} — ${get('ordre-tel')}
+Chauffeur         : ${get('chauffeur-nom')} — ${get('chauffeur-tel')}
+VÉHICULE
+Type              : ${get('type-vehicule')}
+Immatriculation   : ${get('immat')}
+Positions pneu    : ${posLabel}
+Dimension         : ${get('dimension')}
+Marque/Modèle     : ${get('marque')}
+Raison            : ${get('raison')}
+LIEU
+Adresse           : ${get('adresse')}
+Code postal       : ${get('cp')}
+Ville             : ${get('ville')}
+INTERVENTION
+Centre            : ${get('centre')}
+Technicien        : ${get('technicien')}
+ETA               : ${get('eta')||'—'}
+Notes             : ${get('notes')}
+=====================================================`;
+
+    const fn = `fiche_${slug(societe)}_${hFile}.txt`;
+    const folderId = FOLDERS[operateur];
+
+    const btn = document.getElementById('btn-generer');
+    btn.disabled = true;
+    btn.textContent = 'Envoi en cours...';
+
+    try {
+      const meta = JSON.stringify({ name: fn, mimeType: 'text/plain', parents: [folderId] });
+      const body = new Blob([fiche], { type: 'text/plain;charset=utf-8' });
+      const form = new FormData();
+      form.append('metadata', new Blob([meta], { type: 'application/json' }));
+      form.append('file', body);
+
+      const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${accessToken}` },
+        body: form
+      });
+
+      if(res.ok){
+        const confirmTime = new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+        document.getElementById('confirm-filename').textContent = fn;
+        document.getElementById('confirm-folder').textContent = `Drive / Fiches Euromaster PL / ${operateur}`;
+        document.getElementById('confirm-operateur').textContent = operateur;
+        document.getElementById('confirm-time').textContent = `Enregistrée à ${confirmTime}`;
+        document.getElementById('confirm-card').style.display = 'block';
+        document.getElementById('confirm-card').scrollIntoView({behavior:'smooth',block:'nearest'});
+      } else {
+        const err = await res.json();
+        showToast('Erreur Drive : ' + (err.error?.message||res.status), 'err');
+      }
+    } catch(e){
+      showToast('Erreur réseau : ' + e.message, 'err');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Générer et envoyer sur Drive';
+    }
+  }
+
+  function reinit(){
+    ['societe','chauffeur-nom','chauffeur-tel','ordre-nom','ordre-tel','immat','dimension','marque','adresse','cp','ville','technicien','eta','notes']
+      .forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+    ['type-vehicule','raison','centre','operateur'].forEach(id=>{
+      const e=document.getElementById(id);if(e)e.selectedIndex=0;
+    });
+    tiSelected='';
+    ['ti-dep','ti-site','ti-centre'].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.remove('on');});
+    document.getElementById('toast').classList.remove('show');
+    document.getElementById('confirm-card').style.display='none';
+    document.getElementById('ac-list').style.display='none';
+    sel.clear(); renderPositions(); renderTags();
+  }
+</script>
+</body>
+</html>
