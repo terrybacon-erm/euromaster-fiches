@@ -1,0 +1,556 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);font-size:13px}
+.app{display:flex;flex-direction:column;min-height:600px;background:var(--color-background-tertiary)}
+
+.header{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:.75rem 1.25rem;display:flex;align-items:center;gap:12px}
+.logo{font-size:13px;font-weight:500;color:var(--color-text-secondary);letter-spacing:.04em}
+.logo span{color:#E24B4A}
+.site-badge{font-size:11px;padding:3px 10px;border-radius:10px;background:#E6F1FB;color:#0C447C;font-weight:500}
+.header-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+
+.btn{padding:6px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;font-size:12px;color:var(--color-text-primary);font-family:var(--font-sans);transition:background .12s}
+.btn:hover{background:var(--color-background-secondary)}
+.btn.red{background:#E24B4A;color:#fff;border-color:#E24B4A}
+.btn.red:hover{background:#A32D2D}
+.btn.sm{padding:4px 9px;font-size:11px}
+
+.main{display:flex;flex:1;overflow:hidden;min-height:540px}
+
+.left{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+
+.toolbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:.5rem .875rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.search{padding:5px 9px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-size:12px;color:var(--color-text-primary);width:180px;font-family:var(--font-sans)}
+.frow{display:flex;gap:4px;flex-wrap:wrap}
+.fb{padding:3px 9px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:none;cursor:pointer;font-size:11px;color:var(--color-text-secondary);font-family:var(--font-sans);transition:all .12s}
+.fb.on{background:#E24B4A;color:#fff;border-color:#E24B4A}
+.fb:hover:not(.on){background:var(--color-background-secondary)}
+.count-info{font-size:11px;color:var(--color-text-tertiary);margin-left:auto}
+
+.tbl-wrap{flex:1;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead th{position:sticky;top:0;background:var(--color-background-secondary);padding:7px 10px;text-align:left;font-weight:500;font-size:11px;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);white-space:nowrap;cursor:pointer;user-select:none}
+thead th:hover{color:var(--color-text-primary)}
+tbody tr{border-bottom:0.5px solid var(--color-border-tertiary);cursor:pointer;transition:background .1s}
+tbody tr:hover{background:var(--color-background-secondary)}
+tbody tr.sel{background:#FCEBEB}
+tbody tr.blq{border-left:3px solid #E24B4A}
+td{padding:6px 10px;vertical-align:middle;color:var(--color-text-primary)}
+.u-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.uc{background:#E24B4A}.uh{background:#BA7517}.un{background:#3B6D11}
+.badge{font-size:10px;padding:2px 6px;border-radius:8px;font-weight:500;white-space:nowrap}
+.bc{background:#FCEBEB;color:#A32D2D}
+.bh{background:#FAEEDA;color:#854F0B}
+.bn{background:#EAF3DE;color:#3B6D11}
+.bs-bloque{background:#FCEBEB;color:#A32D2D}
+.bs-nouveau{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.bs-planifie{background:#E6F1FB;color:#185FA5}
+
+.panel{width:360px;min-width:360px;background:var(--color-background-primary);border-left:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;overflow-y:auto}
+.ph{padding:.75rem 1rem;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:space-between}
+.ph h2{font-size:13px;font-weight:500}
+.pb{padding:.875rem 1rem;flex:1}
+.fg{margin-bottom:11px}
+.fl{font-size:10px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;display:block}
+.fi,.fs,.fta{width:100%;padding:6px 8px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);font-size:12px;color:var(--color-text-primary);font-family:var(--font-sans)}
+.fta{min-height:60px;resize:vertical}
+.info-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;font-size:12px;color:var(--color-text-primary)}
+.info-box.red{background:#FCEBEB;color:#791F1F}
+.info-box.amber{background:#FAEEDA;color:#633806}
+.kv{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.kv:last-child{border-bottom:none}
+.kv-k{color:var(--color-text-secondary)}
+.kv-v{font-weight:500;text-align:right;max-width:60%}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:.75rem 0}
+.mail-prev{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:9px;font-size:11px;line-height:1.65;color:var(--color-text-secondary);white-space:pre-wrap;max-height:200px;overflow-y:auto;border:0.5px solid var(--color-border-tertiary)}
+.pfoot{padding:.75rem 1rem;border-top:0.5px solid var(--color-border-tertiary);display:flex;gap:6px}
+.empty-panel{padding:2rem 1rem;text-align:center;color:var(--color-text-tertiary);font-size:12px;line-height:1.8}
+
+.stats-bar{display:flex;gap:8px;padding:.5rem .875rem;background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary)}
+.sc{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:5px 12px;text-align:center}
+.sc-l{font-size:10px;color:var(--color-text-tertiary)}
+.sc-v{font-size:16px;font-weight:500}
+.sc-v.r{color:#E24B4A}.sc-v.a{color:#BA7517}.sc-v.g{color:#3B6D11}
+
+.overlay{display:none;min-height:600px;background:rgba(0,0,0,.4);align-items:center;justify-content:center;position:absolute;inset:0;z-index:50}
+.overlay.show{display:flex}
+.modal{background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);width:540px;max-width:96vw;padding:1.25rem}
+.modal h3{font-size:14px;font-weight:500;margin-bottom:.875rem}
+.drop{border:1.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:2rem;text-align:center;cursor:pointer;transition:all .15s;background:var(--color-background-secondary)}
+.drop:hover,.drop.over{border-color:#E24B4A;background:#FCEBEB}
+.drop-title{font-size:13px;font-weight:500;margin-bottom:4px}
+.drop-sub{font-size:11px;color:var(--color-text-tertiary);line-height:1.6}
+.prog{background:var(--color-background-secondary);border-radius:4px;height:5px;overflow:hidden;margin:8px 0}
+.prog-b{height:100%;background:#E24B4A;transition:width .25s}
+.status-txt{font-size:11px;color:var(--color-text-secondary);margin-top:4px}
+.prev-scroll{overflow-x:auto;margin-bottom:.75rem}
+.pt{width:100%;border-collapse:collapse;font-size:11px}
+.pt th{background:var(--color-background-secondary);padding:4px 7px;text-align:left;font-weight:500;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);white-space:nowrap}
+.pt td{padding:4px 7px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis}
+.modal-foot{display:flex;justify-content:flex-end;gap:6px;margin-top:.875rem}
+
+.toast{position:fixed;bottom:1rem;right:1rem;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:7px 13px;font-size:12px;display:none;z-index:200;color:var(--color-text-primary)}
+.toast.on{display:block;animation:si .15s ease}
+@keyframes si{from{transform:translateY(5px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+.sel-bar{background:#FCEBEB;border-bottom:0.5px solid #F09595;padding:5px .875rem;font-size:11px;color:#791F1F;display:none;align-items:center;gap:10px}
+.sel-bar.show{display:flex}
+
+.urgs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:4px}
+.uo{padding:5px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:none;cursor:pointer;text-align:center;font-size:11px;font-weight:500;color:var(--color-text-secondary);font-family:var(--font-sans);transition:all .12s}
+.uo.uc2{background:#FCEBEB;color:#A32D2D;border-color:#E24B4A}
+.uo.uh2{background:#FAEEDA;color:#854F0B;border-color:#EF9F27}
+.uo.un2{background:#EAF3DE;color:#3B6D11;border-color:#97C459}
+</style>
+
+<div class="app" style="position:relative">
+
+<div class="header">
+  <div class="logo"><span>■</span> Euromaster — Planification</div>
+  <div class="site-badge" id="site-badge">Aucun site chargé</div>
+  <div class="header-actions">
+    <button class="btn" onclick="openModal()">Importer PDF</button>
+    <button class="btn red" id="btn-bloquer-sel" style="display:none" onclick="bloquerSelection()">Bloquer sélectionnés</button>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="sc"><div class="sc-l">Critique</div><div class="sc-v r" id="sc-c">0</div></div>
+  <div class="sc"><div class="sc-l">Haute</div><div class="sc-v a" id="sc-h">0</div></div>
+  <div class="sc"><div class="sc-l">Normale</div><div class="sc-v g" id="sc-n">0</div></div>
+  <div class="sc"><div class="sc-l">Bloqués</div><div class="sc-v r" id="sc-b">0</div></div>
+  <div class="sc"><div class="sc-l">Total</div><div class="sc-v" id="sc-t">0</div></div>
+</div>
+
+<div class="sel-bar" id="sel-bar">
+  <span id="sel-count">0 sélectionné(s)</span>
+  <button class="btn sm red" onclick="bloquerSelection()">Envoyer demande de blocage groupée</button>
+  <button class="btn sm" onclick="clearSel()">Désélectionner</button>
+</div>
+
+<div class="main">
+  <div class="left">
+    <div class="toolbar">
+      <input class="search" id="search" placeholder="Immat, flotte, observation..." oninput="render()">
+      <div class="frow">
+        <button class="fb on" onclick="setFilt('all',this)">Tous</button>
+        <button class="fb" onclick="setFilt('critique',this)">Critique</button>
+        <button class="fb" onclick="setFilt('haute',this)">Haute</button>
+        <button class="fb" onclick="setFilt('bloque',this)">Bloqués</button>
+        <button class="fb" onclick="setFilt('nouveau',this)">Non traités</button>
+      </div>
+      <div class="count-info" id="count-info">0 véhicule(s)</div>
+    </div>
+    <div class="tbl-wrap">
+      <table id="main-table">
+        <thead>
+          <tr>
+            <th style="width:28px"><input type="checkbox" id="chk-all" onchange="toggleAll(this.checked)"></th>
+            <th onclick="sortBy('urgence')">!</th>
+            <th onclick="sortBy('immat')">N° immat</th>
+            <th onclick="sortBy('flotte')">N° flotte</th>
+            <th onclick="sortBy('dimension')">Dimensions</th>
+            <th onclick="sortBy('observation')">Observation</th>
+            <th onclick="sortBy('preco')">Préconisations</th>
+            <th onclick="sortBy('position')">Pos.</th>
+            <th onclick="sortBy('date_inspection')">Date insp.</th>
+            <th>Statut</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel" id="panel">
+    <div class="ph"><h2>Demande de blocage</h2><button class="btn sm" onclick="clearPanel()">✕</button></div>
+    <div class="pb" id="panel-body">
+      <div class="empty-panel">Sélectionner un véhicule<br>dans la liste pour générer<br>la demande de blocage</div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="modal">
+<div class="modal">
+  <h3>Importer la liste de travaux PDF</h3>
+
+  <div class="drop" id="drop" onclick="document.getElementById('finput').click()" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="onDrop(event)">
+    <div style="font-size:24px;margin-bottom:.5rem">📄</div>
+    <div class="drop-title">Déposer le PDF ici ou cliquer pour parcourir</div>
+    <div class="drop-sub">Format Berto : N°immat · N°flotte · Dimensions · Observation · Préconisations · Pos. · Pression · Date inspection · Commentaires</div>
+  </div>
+  <input type="file" id="finput" accept=".pdf,.csv,.txt" style="display:none" onchange="handleFile(this.files[0])">
+
+  <div id="prog-wrap" style="display:none">
+    <div class="prog"><div class="prog-b" id="prog-b" style="width:0%"></div></div>
+    <div class="status-txt" id="status-txt">Lecture...</div>
+  </div>
+
+  <div id="prev-wrap" style="display:none">
+    <div style="font-size:11px;font-weight:500;color:var(--color-text-secondary);margin:.75rem 0 .4rem" id="prev-info"></div>
+    <div class="prev-scroll"><table class="pt" id="prev-tbl"></table></div>
+    <div class="fg">
+      <label class="fl">Parc / Site</label>
+      <input class="fi" id="imp-site" value="BERTO IDF SUD COMBS LA VILLE">
+    </div>
+    <div class="fg">
+      <label class="fl">Contact client (email)</label>
+      <input class="fi" id="imp-email" value="responsable.parc@berto-groupe.fr">
+    </div>
+  </div>
+
+  <div class="modal-foot">
+    <button class="btn" onclick="closeModal()">Annuler</button>
+    <button class="btn" onclick="loadDemoData()">Charger démo</button>
+    <button class="btn red" id="btn-imp" style="display:none" onclick="doImport()">Importer</button>
+  </div>
+</div>
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+let vehicles=[], selId=null, filt='all', sortCol='urgence', sortDir=1, selected=new Set(), parsedRows=[], siteName='';
+
+const DEMO_ROWS=[
+  {immat:'EJ456GJ',flotte:'106104',dimension:'13R22.5',observation:'Ecart > 5mm entre 2 pneus de l\'essieu',preco:'A Remplacer (urgent)',position:'3DE, 3DI, 3GE, 3GI',pression:'',date_inspection:'10/04/2026',commentaires:'Prévoir 4 pneus'},
+  {immat:'EJ456GJ',flotte:'106104',dimension:'13R22.5',observation:'Sous gonflage',preco:'Remise à pression',position:'VEH',pression:'',date_inspection:'10/04/2026',commentaires:'Prévoir 4 pneus'},
+  {immat:'EP414TA',flotte:'106357',dimension:'315/70R22.5',observation:'Pneu crevé',preco:'Réparer/Remplacer le pneu URGENT',position:'2GI',pression:'',date_inspection:'09/04/2026',commentaires:'-'},
+  {immat:'EW295LM',flotte:'107506',dimension:'315/80R22.5',observation:'Bande de roulement endommagée',preco:'Remplacer pneu 1oj',position:'2G',pression:'',date_inspection:'09/04/2026',commentaires:'Prévoir 2 pneus 2eme essieux'},
+  {immat:'EW295LM',flotte:'107506',dimension:'315/80R22.5',observation:'Usure normale',preco:'Remplacer pneu 3oj',position:'1D',pression:'',date_inspection:'09/04/2026',commentaires:'Prévoir 2 pneus 2eme essieux'},
+  {immat:'EH707HS',flotte:'105902',dimension:'315/80R22.5',observation:'Usure normale',preco:'Recreusage 3oj',position:'1D',pression:'',date_inspection:'09/04/2026',commentaires:'-'},
+  {immat:'FD394XV',flotte:'108080',dimension:'315/80R22.5',observation:'Optimisation de gomme',preco:'Retourner sur jante 3oj',position:'2G',pression:'',date_inspection:'10/04/2026',commentaires:'-'},
+  {immat:'FD394XV',flotte:'108080',dimension:'315/80R22.5',observation:'Rapage flanc',preco:'Retourner sur jante 3oj',position:'3GE, 3GI, 4GE',pression:'',date_inspection:'10/04/2026',commentaires:'-'},
+  {immat:'FD394XV',flotte:'108080',dimension:'315/80R22.5',observation:'Rapage flanc',preco:'Permuter 3oj',position:'3GE, 3GI',pression:'',date_inspection:'10/04/2026',commentaires:'-'},
+  {immat:'FT675FK',flotte:'110467',dimension:'285/70R19.5',observation:'Usure normale',preco:'Recreusage 3oj',position:'2DE, 2DI',pression:'',date_inspection:'10/04/2026',commentaires:'-'},
+  {immat:'GW229TZ',flotte:'118453',dimension:'285/70R19.5',observation:'Rapage flanc',preco:'Retourner sur jante 3oj',position:'2DE',pression:'',date_inspection:'09/04/2026',commentaires:'-'},
+  {immat:'GY586RG',flotte:'118381',dimension:'285/70R19.5',observation:'Rapage flanc',preco:'Retourner sur jante 3oj',position:'2DE',pression:'',date_inspection:'09/04/2026',commentaires:'-'},
+];
+
+function detUrgence(obs, preco) {
+  const txt = (obs+' '+preco).toLowerCase();
+  if(txt.includes('urgent')||txt.includes('crevé')||txt.includes('fuite')||txt.includes('éclaté')||txt.includes('remplacer (urgent)')) return 'critique';
+  if(txt.includes('endommagée')||txt.includes('remplacer')||txt.includes('rapage')||txt.includes('écart')||txt.includes('sous gonflage')) return 'haute';
+  return 'normale';
+}
+
+function groupByImmat(rows) {
+  const map = {};
+  rows.forEach(r => {
+    const k = r.immat;
+    if (!map[k]) {
+      map[k] = {
+        id: Date.now()+Math.random(),
+        immat: r.immat,
+        flotte: r.flotte,
+        dimension: r.dimension,
+        lignes: [],
+        pression: r.pression,
+        date_inspection: r.date_inspection,
+        statut: 'nouveau',
+        bloque: false,
+        site: siteName
+      };
+    }
+    map[k].lignes.push({observation:r.observation, preco:r.preco, position:r.position, commentaires:r.commentaires});
+  });
+  const res = Object.values(map);
+  res.forEach(v => {
+    const allObs = v.lignes.map(l=>l.observation+' '+l.preco).join(' ');
+    v.urgence = detUrgence(allObs, '');
+    v.observation = v.lignes.map(l=>l.observation).filter((x,i,a)=>a.indexOf(x)===i).join(' / ');
+    v.preco = v.lignes.map(l=>l.preco).filter((x,i,a)=>a.indexOf(x)===i).join(' / ');
+    v.position = v.lignes.map(l=>l.position).filter(Boolean).join(', ');
+  });
+  return res;
+}
+
+function render() {
+  const q = (document.getElementById('search').value||'').toLowerCase();
+  let data = vehicles.filter(v => {
+    const mf = filt==='all'||(filt==='critique'&&v.urgence==='critique')||(filt==='haute'&&v.urgence==='haute')||(filt==='bloque'&&v.bloque)||(filt==='nouveau'&&v.statut==='nouveau');
+    const ms = !q||v.immat.toLowerCase().includes(q)||v.flotte.toLowerCase().includes(q)||(v.observation||'').toLowerCase().includes(q)||(v.preco||'').toLowerCase().includes(q);
+    return mf&&ms;
+  });
+  const pu = {critique:0,haute:1,normale:2};
+  data.sort((a,b)=>{
+    if(sortCol==='urgence') return (pu[a.urgence]-pu[b.urgence])*sortDir;
+    const av=(a[sortCol]||''), bv=(b[sortCol]||'');
+    return av.localeCompare(bv)*sortDir;
+  });
+  document.getElementById('count-info').textContent = data.length+' véhicule(s)';
+  updateStats();
+  const uc={critique:'bc',haute:'bh',normale:'bn'};
+  const ud={critique:'uc',haute:'uh',normale:'un'};
+  document.getElementById('tbody').innerHTML = data.map(v=>`
+    <tr class="${v.bloque?'blq':''} ${selId===v.id?'sel':''}" onclick="selectV(${JSON.stringify(v.id)})">
+      <td onclick="event.stopPropagation()"><input type="checkbox" ${selected.has(v.id)?'checked':''} onchange="toggleSel('${v.id}',this.checked)"></td>
+      <td><span class="u-dot ${ud[v.urgence]}"></span></td>
+      <td style="font-weight:500;white-space:nowrap">${v.immat}</td>
+      <td style="color:var(--color-text-secondary)">${v.flotte}</td>
+      <td style="color:var(--color-text-secondary);white-space:nowrap">${v.dimension}</td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${v.observation}">${v.observation}</td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${v.preco}">${v.preco}</td>
+      <td style="color:var(--color-text-secondary);white-space:nowrap">${v.position}</td>
+      <td style="white-space:nowrap;color:var(--color-text-secondary)">${v.date_inspection||''}</td>
+      <td><span class="badge bs-${v.statut}">${v.statut.charAt(0).toUpperCase()+v.statut.slice(1)}</span></td>
+      <td onclick="event.stopPropagation()"><button class="btn sm" onclick="toggleBlq(${JSON.stringify(v.id)})" title="${v.bloque?'Débloquer':'Bloquer'}">${v.bloque?'🔓':'🔒'}</button></td>
+    </tr>`).join('');
+}
+
+function updateStats() {
+  document.getElementById('sc-c').textContent=vehicles.filter(v=>v.urgence==='critique').length;
+  document.getElementById('sc-h').textContent=vehicles.filter(v=>v.urgence==='haute').length;
+  document.getElementById('sc-n').textContent=vehicles.filter(v=>v.urgence==='normale').length;
+  document.getElementById('sc-b').textContent=vehicles.filter(v=>v.bloque).length;
+  document.getElementById('sc-t').textContent=vehicles.length;
+}
+
+function selectV(id) {
+  selId = id;
+  render();
+  const v = vehicles.find(x=>x.id===id); if(!v)return;
+  const tom = new Date(); tom.setDate(tom.getDate()+1);
+  const tomStr = tom.toISOString().split('T')[0];
+  document.getElementById('panel-body').innerHTML=`
+    <div class="fg">
+      <div style="font-size:14px;font-weight:500">${v.immat}</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">Flotte ${v.flotte} · ${v.dimension} · ${v.site||''}</div>
+    </div>
+    <div class="fg">
+      <span class="fl">Urgence</span>
+      <div class="urgs">
+        <button class="uo ${v.urgence==='critique'?'uc2':''}" onclick="setUrg('${id}','critique',this)">Critique</button>
+        <button class="uo ${v.urgence==='haute'?'uh2':''}" onclick="setUrg('${id}','haute',this)">Haute</button>
+        <button class="uo ${v.urgence==='normale'?'un2':''}" onclick="setUrg('${id}','normale',this)">Normale</button>
+      </div>
+    </div>
+    <div style="margin-bottom:11px">
+      <span class="fl">Détail des travaux</span>
+      ${(v.lignes||[]).map((l,i)=>`
+        <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:7px 9px;margin-bottom:5px;font-size:12px">
+          <div style="font-weight:500;color:var(--color-text-primary)">${l.observation}</div>
+          <div style="color:#791F1F;margin-top:2px">→ ${l.preco}</div>
+          <div style="color:var(--color-text-tertiary);font-size:11px;margin-top:2px">Position : ${l.position||'—'} ${l.commentaires&&l.commentaires!=='-'?'· '+l.commentaires:''}</div>
+        </div>`).join('')}
+    </div>
+    <div class="fg"><span class="fl">Date inspection</span><div style="font-size:12px;color:var(--color-text-primary)">${v.date_inspection||'—'}</div></div>
+    <div class="divider"></div>
+    <div class="fg"><span class="fl">Destinataire</span><input class="fi" id="m-to" value="${v.contact||'responsable.parc@berto-groupe.fr'}" oninput="updMail('${id}')"></div>
+    <div class="fg"><span class="fl">Date souhaitée d'immobilisation</span><input class="fi" type="date" id="m-date" value="${tomStr}" oninput="updMail('${id}')"></div>
+    <div class="fg"><span class="fl">Remarques</span><textarea class="fta" id="m-extra" oninput="updMail('${id}')" placeholder="Précisions..."></textarea></div>
+    <div class="fg"><span class="fl">Aperçu email</span><div class="mail-prev" id="mprev"></div></div>
+    <div class="pfoot" style="margin:0 -1rem -1rem">
+      <button class="btn" style="flex:1" onclick="copyMail()">Copier email</button>
+      <button class="btn red" style="flex:1" onclick="toggleBlq('${id}')">${v.bloque?'Débloquer':'Confirmer blocage'}</button>
+    </div>`;
+  updMail(id);
+}
+
+function genMail(v, date, extra) {
+  const urg={critique:'URGENTE — Intervention immédiate requise',haute:'Priorité haute',normale:'Priorité normale'};
+  const lignes = (v.lignes||[]).map((l,i)=>`  ${i+1}. [${l.position||'—'}] ${l.observation}\n     → Préco : ${l.preco}${l.commentaires&&l.commentaires!=='-'?' ('+l.commentaires+')':''}`).join('\n');
+  return `Objet : Demande de blocage véhicule — ${v.immat} (Flotte ${v.flotte})
+
+Bonjour,
+
+Dans le cadre de la maintenance du parc ${v.site||'Berto'}, nous vous demandons d'immobiliser le véhicule suivant :
+
+  Immatriculation  : ${v.immat}
+  N° de flotte     : ${v.flotte}
+  Dimension pneu   : ${v.dimension}
+  Date inspection  : ${v.date_inspection||'—'}
+  Urgence          : ${urg[v.urgence]||'—'}
+
+Travaux constatés et préconisations :
+${lignes}
+
+Date souhaitée d'immobilisation : ${date||'À définir'}
+${extra?'\nRemarques : '+extra:''}
+Merci de confirmer la disponibilité du véhicule à cette date.
+
+Cordialement,
+Service planification Euromaster`;
+}
+
+function updMail(id) {
+  const v=vehicles.find(x=>x.id===id); if(!v)return;
+  const date=document.getElementById('m-date')?.value;
+  const extra=document.getElementById('m-extra')?.value;
+  const p=document.getElementById('mprev'); if(p) p.textContent=genMail(v,date,extra);
+}
+
+function copyMail(){
+  const p=document.getElementById('mprev'); if(!p)return;
+  navigator.clipboard.writeText(p.textContent).then(()=>toast('Email copié !'));
+}
+
+function toggleBlq(id) {
+  const v=vehicles.find(x=>x.id===id); if(!v)return;
+  v.bloque=!v.bloque; v.statut=v.bloque?'bloque':'nouveau';
+  toast(v.bloque?v.immat+' marqué bloqué':v.immat+' débloqué');
+  render(); if(selId===id)selectV(id);
+}
+
+function setUrg(id,u,btn){
+  const v=vehicles.find(x=>x.id===id); if(!v)return;
+  v.urgence=u;
+  btn.closest('.urgs').querySelectorAll('.uo').forEach(b=>b.className='uo');
+  btn.className='uo '+(u==='critique'?'uc2':u==='haute'?'uh2':'un2');
+  render(); updMail(id);
+}
+
+function toggleSel(id,checked){
+  if(checked)selected.add(id); else selected.delete(id);
+  updateSelBar();
+}
+
+function toggleAll(checked){
+  const q=(document.getElementById('search').value||'').toLowerCase();
+  vehicles.filter(v=>!q||v.immat.toLowerCase().includes(q)||v.flotte.toLowerCase().includes(q)).forEach(v=>{
+    if(checked)selected.add(v.id); else selected.delete(v.id);
+  });
+  updateSelBar(); render();
+}
+
+function updateSelBar(){
+  const bar=document.getElementById('sel-bar');
+  const bbs=document.getElementById('btn-bloquer-sel');
+  if(selected.size>0){bar.classList.add('show');bbs.style.display='inline-block';}
+  else{bar.classList.remove('show');bbs.style.display='none';}
+  document.getElementById('sel-count').textContent=selected.size+' véhicule(s) sélectionné(s)';
+}
+
+function bloquerSelection(){
+  selected.forEach(id=>{const v=vehicles.find(x=>x.id===id);if(v&&!v.bloque){v.bloque=true;v.statut='bloque';}});
+  toast(selected.size+' véhicule(s) bloqué(s)');
+  selected.clear(); updateSelBar(); render();
+}
+
+function clearSel(){selected.clear();updateSelBar();render();}
+
+function clearPanel(){selId=null;render();document.getElementById('panel-body').innerHTML='<div class="empty-panel">Sélectionner un véhicule<br>dans la liste pour générer<br>la demande de blocage</div>';}
+
+function setFilt(f,btn){filt=f;document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');render();}
+
+function sortBy(col){if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=1;}render();}
+
+function openModal(){document.getElementById('modal').classList.add('show');}
+function closeModal(){document.getElementById('modal').classList.remove('show');document.getElementById('prev-wrap').style.display='none';document.getElementById('prog-wrap').style.display='none';document.getElementById('btn-imp').style.display='none';parsedRows=[];}
+
+function onDrop(e){e.preventDefault();document.getElementById('drop').classList.remove('over');const f=e.dataTransfer.files[0];if(f)handleFile(f);}
+
+async function handleFile(file){
+  const pw=document.getElementById('prog-wrap'), pb=document.getElementById('prog-b'), st=document.getElementById('status-txt');
+  pw.style.display='block'; pb.style.width='5%';
+  st.textContent='Lecture de '+file.name+' ...';
+  try{
+    let rows=[];
+    if(file.name.toLowerCase().endsWith('.pdf')){
+      pb.style.width='20%'; st.textContent='Décodage PDF...';
+      const buf=await file.arrayBuffer();
+      pb.style.width='40%'; st.textContent='Extraction du texte...';
+      const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+      let allText='';
+      for(let p=1;p<=pdf.numPages;p++){
+        const page=await pdf.getPage(p);
+        const tc=await page.getTextContent();
+        const yMap={};
+        tc.items.forEach(item=>{
+          const y=Math.round(item.transform[5]/3)*3;
+          if(!yMap[y])yMap[y]=[];
+          yMap[y].push({x:item.transform[4],t:item.str.trim()});
+        });
+        const ys=Object.keys(yMap).map(Number).sort((a,b)=>b-a);
+        ys.forEach(y=>{
+          const cells=yMap[y].sort((a,b)=>a.x-b.x).map(c=>c.t).filter(Boolean);
+          if(cells.length)allText+=cells.join('\t')+'\n';
+        });
+      }
+      pb.style.width='70%'; st.textContent='Analyse des lignes...';
+      rows=parseLines(allText);
+      const siteMatch=allText.match(/Site\s*[-–]\s*([^\n\t]+)/i);
+      if(siteMatch)document.getElementById('imp-site').value=siteMatch[1].trim();
+    } else {
+      const txt=await file.text();
+      rows=parseLines(txt);
+    }
+    parsedRows=rows;
+    pb.style.width='100%';
+    st.textContent=rows.length+' ligne(s) détectée(s)';
+    showPreview(rows);
+  }catch(e){st.textContent='Erreur : '+e.message;console.error(e);}
+}
+
+function parseLines(txt){
+  const lines=txt.split('\n');
+  const rows=[];
+  const immatRe=/^[A-Z]{2}[-]?\d{3}[-]?[A-Z]{2}$/i;
+  for(const line of lines){
+    const cells=line.split(/\t/).map(c=>c.trim());
+    if(cells.length<3)continue;
+    const immatIdx=cells.findIndex(c=>immatRe.test(c.replace(/\s/g,'')));
+    if(immatIdx<0)continue;
+    const c=cells;
+    const base=immatIdx;
+    rows.push({
+      immat:c[base]?.toUpperCase()||'',
+      flotte:c[base+1]||'',
+      dimension:c[base+2]||'',
+      observation:c[base+3]||'',
+      preco:c[base+4]||'',
+      position:c[base+5]||'',
+      pression:c[base+6]||'',
+      date_inspection:c[base+7]||'',
+      commentaires:c[base+8]||''
+    });
+  }
+  return rows;
+}
+
+function showPreview(rows){
+  if(!rows.length){toast('Aucune immatriculation reconnue');return;}
+  const wrap=document.getElementById('prev-wrap');
+  wrap.style.display='block';
+  document.getElementById('prev-info').textContent=rows.length+' ligne(s) détectée(s) — aperçu des 5 premières :';
+  const tbl=document.getElementById('prev-tbl');
+  const cols=['immat','flotte','dimension','observation','preco','position','date_inspection'];
+  const heads=['Immat','Flotte','Dim.','Observation','Préco','Pos.','Date insp.'];
+  tbl.innerHTML='<tr>'+heads.map(h=>`<th>${h}</th>`).join('')+'</tr>'+
+    rows.slice(0,5).map(r=>'<tr>'+cols.map(c=>`<td>${r[c]||'—'}</td>`).join('')+'</tr>').join('');
+  document.getElementById('btn-imp').style.display='inline-block';
+}
+
+function doImport(){
+  siteName=document.getElementById('imp-site').value||'Berto';
+  const contact=document.getElementById('imp-email').value||'';
+  const grouped=groupByImmat(parsedRows);
+  grouped.forEach(v=>{v.contact=contact; v.site=siteName;});
+  vehicles=grouped;
+  selected.clear(); selId=null;
+  document.getElementById('site-badge').textContent=siteName;
+  closeModal(); render();
+  toast(grouped.length+' véhicule(s) importé(s) depuis '+parsedRows.length+' ligne(s)');
+}
+
+function loadDemoData(){
+  siteName='BERTO IDF SUD COMBS LA VILLE';
+  document.getElementById('imp-site').value=siteName;
+  parsedRows=DEMO_ROWS;
+  showPreview(DEMO_ROWS);
+  document.getElementById('prog-wrap').style.display='block';
+  document.getElementById('prog-b').style.width='100%';
+  document.getElementById('status-txt').textContent=DEMO_ROWS.length+' lignes démo chargées';
+}
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2500);}
+
+loadDemoData(); doImport();
+</script>
