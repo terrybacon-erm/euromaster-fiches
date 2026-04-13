@@ -1,0 +1,592 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.app{display:flex;height:100vh;min-height:620px;background:var(--color-background-tertiary);font-family:var(--font-sans)}
+.sidebar{width:240px;min-width:240px;background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column}
+.sb-head{padding:.875rem 1rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.logo{font-size:12px;font-weight:500;color:var(--color-text-secondary);letter-spacing:.05em;text-transform:uppercase}
+.logo b{color:#E24B4A;font-weight:500}
+.sb-section{padding:.625rem .875rem}
+.sb-label{font-size:10px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+.parc-btn{display:block;width:100%;text-align:left;padding:6px 8px;border-radius:var(--border-radius-md);border:none;background:none;cursor:pointer;font-size:12px;color:var(--color-text-secondary);transition:background .12s}
+.parc-btn:hover{background:var(--color-background-secondary)}
+.parc-btn.active{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500}
+.pdot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 .875rem .875rem}
+.sc{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px}
+.sc-l{font-size:10px;color:var(--color-text-tertiary);margin-bottom:1px}
+.sc-v{font-size:18px;font-weight:500}
+.sc-v.red{color:#E24B4A}.sc-v.amber{color:#BA7517}.sc-v.green{color:#3B6D11}
+.sb-foot{padding:.875rem;border-top:0.5px solid var(--color-border-tertiary);margin-top:auto}
+.btn{padding:6px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;font-size:12px;color:var(--color-text-primary);transition:background .12s;font-family:var(--font-sans)}
+.btn:hover{background:var(--color-background-secondary)}
+.btn.primary{background:#E24B4A;color:#fff;border-color:#E24B4A}
+.btn.primary:hover{background:#A32D2D}
+.btn.block{width:100%;margin-bottom:6px}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:.625rem 1rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tb-title{font-size:13px;font-weight:500;flex:1;min-width:100px}
+.search{padding:5px 9px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-size:12px;color:var(--color-text-primary);width:170px;font-family:var(--font-sans)}
+.frow{display:flex;gap:4px}
+.fb{padding:4px 9px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:none;cursor:pointer;font-size:11px;color:var(--color-text-secondary);transition:all .12s;font-family:var(--font-sans)}
+.fb.active{background:#E24B4A;color:#fff;border-color:#E24B4A}
+.fb:hover:not(.active){background:var(--color-background-secondary)}
+.content{flex:1;overflow-y:auto;padding:.875rem}
+.vlist{display:flex;flex-direction:column;gap:6px}
+.vcard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.75rem .875rem;cursor:pointer;transition:border-color .12s;display:grid;grid-template-columns:10px 1fr auto auto;align-items:center;gap:10px}
+.vcard:hover{border-color:var(--color-border-secondary)}
+.vcard.sel{border-color:#E24B4A;border-width:1px}
+.vcard.blq{border-left:3px solid #E24B4A;border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0}
+.udot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.u-critique{background:#E24B4A}.u-haute{background:#BA7517}.u-normale{background:#3B6D11}
+.vi-immat{font-size:13px;font-weight:500;letter-spacing:.04em}
+.vi-meta{font-size:11px;color:var(--color-text-secondary);margin-top:1px}
+.vi-tags{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px}
+.tag{font-size:10px;padding:2px 6px;border-radius:10px;font-weight:500}
+.tag-dim{background:#E6F1FB;color:#0C447C}
+.tag-obs{background:#FAEEDA;color:#633806}
+.tag-preco{background:#FCEBEB;color:#791F1F}
+.tag-pos{background:#EAF3DE;color:#27500A}
+.sbadge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:500;display:inline-block}
+.s-bloque{background:#FCEBEB;color:#A32D2D}
+.s-planifie{background:#E6F1FB;color:#185FA5}
+.s-attente{background:#FAEEDA;color:#854F0B}
+.s-nouveau{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.ibtn{padding:4px 7px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:none;cursor:pointer;font-size:11px;color:var(--color-text-secondary);transition:all .12s;font-family:var(--font-sans)}
+.ibtn:hover{background:var(--color-background-secondary)}
+.ibtn.dng:hover{background:#FCEBEB;color:#E24B4A;border-color:#E24B4A}
+.panel{width:320px;min-width:320px;background:var(--color-background-primary);border-left:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;overflow-y:auto}
+.ph{padding:.875rem 1rem;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:space-between}
+.ph-title{font-size:13px;font-weight:500}
+.pb{padding:.875rem 1rem;flex:1}
+.fg{margin-bottom:12px}
+.fl{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;display:block}
+.fi,.fs,.fta{width:100%;padding:6px 9px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);background:var(--color-background-primary);font-size:12px;color:var(--color-text-primary);font-family:var(--font-sans)}
+.fta{min-height:70px;resize:vertical}
+.urgs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
+.uo{padding:6px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:none;cursor:pointer;text-align:center;font-size:11px;font-weight:500;transition:all .12s;color:var(--color-text-secondary);font-family:var(--font-sans)}
+.uo.sc-{background:#FCEBEB;color:#A32D2D;border-color:#E24B4A}
+.uo.sh{background:#FAEEDA;color:#854F0B;border-color:#EF9F27}
+.uo.sn{background:#EAF3DE;color:#3B6D11;border-color:#97C459}
+.tvlist{margin-top:4px}
+.tvi{display:flex;align-items:flex-start;gap:7px;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px}
+.tvi:last-child{border-bottom:none}
+.tvi input{margin-top:2px;flex-shrink:0}
+.mprev{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px;font-size:11px;line-height:1.65;color:var(--color-text-secondary);white-space:pre-wrap;border:0.5px solid var(--color-border-tertiary);max-height:180px;overflow-y:auto}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:.875rem 0}
+.pfoot{padding:.875rem 1rem;border-top:0.5px solid var(--color-border-tertiary);display:flex;gap:6px}
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--color-text-tertiary);font-size:12px}
+
+.import-zone{border:1.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:2rem 1rem;text-align:center;cursor:pointer;transition:all .15s;background:var(--color-background-secondary);margin-bottom:1rem}
+.import-zone:hover,.import-zone.drag{border-color:#E24B4A;background:#FCEBEB}
+.import-zone.drag *{pointer-events:none}
+.iz-icon{font-size:28px;margin-bottom:.5rem}
+.iz-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px}
+.iz-sub{font-size:11px;color:var(--color-text-tertiary)}
+
+.import-modal-bg{display:none;min-height:500px;background:rgba(0,0,0,.38);align-items:center;justify-content:center}
+.import-modal-bg.show{display:flex}
+.imodal{background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);width:520px;max-width:96vw;padding:1.25rem}
+.imodal-title{font-size:14px;font-weight:500;margin-bottom:1rem}
+.col-map{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
+.cm-row{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px}
+.cm-label{font-size:10px;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.cm-val{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.prev-table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:1rem;table-layout:fixed}
+.prev-table th{text-align:left;padding:4px 6px;background:var(--color-background-secondary);color:var(--color-text-secondary);font-weight:500;border-bottom:0.5px solid var(--color-border-tertiary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prev-table td{padding:4px 6px;border-bottom:0.5px solid var(--color-border-tertiary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--color-text-primary)}
+.prev-table tr:last-child td{border-bottom:none}
+.imodal-actions{display:flex;justify-content:flex-end;gap:6px}
+.paste-area{width:100%;min-height:120px;padding:8px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);font-size:11px;font-family:var(--font-mono);color:var(--color-text-primary);background:var(--color-background-primary);resize:vertical;margin-bottom:.75rem}
+.tabs{display:flex;gap:4px;margin-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary);padding-bottom:0}
+.tab{padding:6px 12px;font-size:12px;cursor:pointer;border:none;background:none;color:var(--color-text-secondary);border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font-sans)}
+.tab.active{color:#E24B4A;border-bottom-color:#E24B4A;font-weight:500}
+.toast{position:fixed;bottom:1.25rem;right:1.25rem;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 14px;font-size:12px;display:none;z-index:300;color:var(--color-text-primary)}
+.toast.show{display:block;animation:si .18s ease}
+@keyframes si{from{transform:translateY(6px);opacity:0}to{transform:translateY(0);opacity:1}}
+.progress{background:var(--color-background-secondary);border-radius:4px;height:4px;overflow:hidden;margin-bottom:.75rem}
+.progress-bar{height:100%;background:#E24B4A;transition:width .3s}
+</style>
+
+<div class="app">
+
+<div class="sidebar">
+  <div class="sb-head">
+    <div class="logo"><b>■</b> Euromaster Planning</div>
+    <div style="font-size:11px;color:var(--color-text-tertiary);margin-top:3px" id="cur-date"></div>
+  </div>
+  <div class="sb-section">
+    <div class="sb-label">Parcs Berto</div>
+    <button class="parc-btn active" onclick="fParc('all',this)"><span class="pdot" style="background:#888"></span>Tous</button>
+    <button class="parc-btn" onclick="fParc('Lyon-Est',this)"><span class="pdot" style="background:#378ADD"></span>Lyon-Est</button>
+    <button class="parc-btn" onclick="fParc('Lyon-Ouest',this)"><span class="pdot" style="background:#1D9E75"></span>Lyon-Ouest</button>
+    <button class="parc-btn" onclick="fParc('Grenoble',this)"><span class="pdot" style="background:#BA7517"></span>Grenoble</button>
+    <button class="parc-btn" onclick="fParc('Chambery',this)"><span class="pdot" style="background:#D4537E"></span>Chambéry</button>
+  </div>
+  <hr style="border:none;border-top:0.5px solid var(--color-border-tertiary)">
+  <div class="stats">
+    <div class="sc"><div class="sc-l">Critique</div><div class="sc-v red" id="cnt-c">0</div></div>
+    <div class="sc"><div class="sc-l">Haute</div><div class="sc-v amber" id="cnt-h">0</div></div>
+    <div class="sc"><div class="sc-l">Bloqués</div><div class="sc-v red" id="cnt-b">0</div></div>
+    <div class="sc"><div class="sc-l">Total</div><div class="sc-v" id="cnt-t">0</div></div>
+  </div>
+  <div class="sb-foot">
+    <button class="btn block" onclick="openImport()">+ Importer PDF / liste</button>
+    <button class="btn block" onclick="addManual()">+ Saisie manuelle</button>
+  </div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <div class="tb-title" id="parc-title">Tous les parcs</div>
+    <input class="search" type="text" placeholder="Rechercher immat, flotte..." id="search" oninput="render()">
+    <div class="frow">
+      <button class="fb active" onclick="fFilt('all',this)">Tous</button>
+      <button class="fb" onclick="fFilt('critique',this)">Critique</button>
+      <button class="fb" onclick="fFilt('haute',this)">Haute</button>
+      <button class="fb" onclick="fFilt('bloque',this)">Bloqués</button>
+    </div>
+    <button class="btn primary" onclick="bloquerSel()">Bloquer sélection</button>
+  </div>
+  <div class="content"><div class="vlist" id="vlist"></div></div>
+</div>
+
+<div class="panel" id="panel">
+  <div class="ph"><div class="ph-title">Demande de blocage</div><button class="ibtn" onclick="clearSel()">✕</button></div>
+  <div class="pb" id="panel-body"><div class="empty">Sélectionner un véhicule<br>pour générer l'email de blocage</div></div>
+</div>
+
+</div>
+
+<div class="import-modal-bg" id="imp-modal">
+<div class="imodal">
+  <div class="imodal-title">Importer une liste de travaux</div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('pdf',this)">Fichier PDF</button>
+    <button class="tab" onclick="switchTab('paste',this)">Coller tableau</button>
+    <button class="tab" onclick="switchTab('demo',this)">Données démo</button>
+  </div>
+
+  <div id="tab-pdf">
+    <div class="import-zone" id="drop-zone" onclick="document.getElementById('file-input').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
+      <div class="iz-icon">📄</div>
+      <div class="iz-title">Déposer le PDF ici ou cliquer pour parcourir</div>
+      <div class="iz-sub">Format attendu : tableau avec colonnes Immat · N° Flotte · Dimension · Observation · Préco · Position</div>
+    </div>
+    <input type="file" id="file-input" accept=".pdf,.csv,.xlsx,.txt" style="display:none" onchange="handleFile(this.files[0])">
+    <div id="pdf-progress" style="display:none">
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:6px" id="pdf-status">Lecture du fichier...</div>
+      <div class="progress"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div id="tab-paste" style="display:none">
+    <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px">Coller le contenu de votre tableau (depuis Excel, AS400, etc.) :</div>
+    <textarea class="paste-area" id="paste-area" placeholder="Immat&#9;N° Flotte&#9;Dimension&#9;Observation&#9;Préco&#9;Position&#10;AB-123-CD&#9;FL001&#9;315/70R22.5&#9;Usure irrégulière&#9;Changer pneu AV gauche&#9;AV Gauche&#10;EF-456-GH&#9;FL002&#9;295/60R22.5&#9;Fuite huile&#9;Vidange urgente&#9;Moteur"></textarea>
+    <div id="paste-preview" style="display:none">
+      <div style="font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:6px" id="paste-count"></div>
+      <div style="overflow-x:auto"><table class="prev-table" id="prev-tbl"></table></div>
+    </div>
+    <button class="btn" style="font-size:12px;margin-bottom:.75rem" onclick="parsePaste()">Analyser</button>
+  </div>
+
+  <div id="tab-demo" style="display:none">
+    <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:1rem">Charger des données d'exemple au format Berto pour tester l'application.</div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px;font-size:11px;font-family:var(--font-mono);color:var(--color-text-secondary);margin-bottom:.75rem">
+      Immat | N°Flotte | Dimension | Observation | Préco | Position<br>
+      DT-445-GE | FL001 | 315/70R22.5 | Usure 2mm AV | Changer pneu | AV Gauche<br>
+      GR-112-BK | FL002 | 295/80R22.5 | Fuite freins | Révision frein | AV Droit<br>
+      ...
+    </div>
+  </div>
+
+  <div id="imp-preview" style="display:none">
+    <div style="font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:6px" id="imp-count"></div>
+    <div style="overflow-x:auto;margin-bottom:.875rem"><table class="prev-table" id="imp-tbl"></table></div>
+    <div class="fg">
+      <label class="fl">Parc à assigner</label>
+      <select class="fs" id="imp-parc">
+        <option value="Lyon-Est">Lyon-Est</option>
+        <option value="Lyon-Ouest">Lyon-Ouest</option>
+        <option value="Grenoble">Grenoble</option>
+        <option value="Chambery">Chambéry</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="imodal-actions">
+    <button class="btn" onclick="closeImport()">Annuler</button>
+    <button class="btn primary" id="imp-confirm" onclick="confirmImport()" style="display:none">Importer les véhicules</button>
+    <button class="btn primary" id="demo-btn" onclick="loadDemo()" style="display:none">Charger démo</button>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+let vehicles=[], selId=null, curParc='all', curFilt='all', parsedRows=[];
+const PARCS={'Lyon-Est':'#378ADD','Lyon-Ouest':'#1D9E75','Grenoble':'#BA7517','Chambery':'#D4537E'};
+
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+const DEMO=[
+  {id:1,immat:'DT-445-GE',flotte:'FL001',parc:'Lyon-Est',urgence:'critique',statut:'nouveau',bloque:false,dimension:'315/70R22.5',observation:'Usure irrégulière AV gauche 2mm',preco:'Remplacement pneu avant gauche',position:'AV Gauche'},
+  {id:2,immat:'GR-112-BK',flotte:'FL002',parc:'Grenoble',urgence:'critique',statut:'bloque',bloque:true,dimension:'295/80R22.5',observation:'Fuite liquide de frein',preco:'Révision freins urgente + purge',position:'AV Droit'},
+  {id:3,immat:'LY-789-AT',flotte:'FL003',parc:'Lyon-Ouest',urgence:'haute',statut:'planifie',bloque:false,dimension:'315/70R22.5',observation:'Vidange dépassée 5000km',preco:'Vidange moteur + filtre à huile',position:'Moteur'},
+  {id:4,immat:'CH-321-MP',flotte:'FL004',parc:'Chambery',urgence:'haute',statut:'attente',bloque:false,dimension:'295/60R22.5',observation:'Usure 3mm sur 4 pneus AR',preco:'Remplacement 4 pneus arrière',position:'AR'},
+  {id:5,immat:'LY-654-XR',flotte:'FL005',parc:'Lyon-Est',urgence:'normale',statut:'nouveau',bloque:false,dimension:'315/70R22.5',observation:'Révision 150 000km',preco:'Révision complète planifiée',position:'Général'},
+  {id:6,immat:'GR-888-TW',flotte:'FL006',parc:'Grenoble',urgence:'haute',statut:'attente',bloque:false,dimension:'295/80R22.5',observation:'Pneu de secours manquant + essuie-glaces',preco:'Pneu secours + kit essuie-glaces',position:'Divers'},
+];
+
+function render(){
+  const q=(document.getElementById('search').value||'').toLowerCase();
+  let d=vehicles.filter(v=>{
+    const mp=curParc==='all'||v.parc===curParc;
+    const mf=curFilt==='all'||(curFilt==='critique'&&v.urgence==='critique')||(curFilt==='haute'&&v.urgence==='haute')||(curFilt==='bloque'&&v.bloque);
+    const ms=!q||v.immat.toLowerCase().includes(q)||(v.flotte||'').toLowerCase().includes(q)||(v.observation||'').toLowerCase().includes(q);
+    return mp&&mf&&ms;
+  });
+  d.sort((a,b)=>({critique:0,haute:1,normale:2}[a.urgence]-{critique:0,haute:1,normale:2}[b.urgence]));
+  updateStats();
+  const ul=document.getElementById('vlist');
+  if(!d.length){ul.innerHTML='<div class="empty">Aucun véhicule trouvé</div>';return;}
+  ul.innerHTML=d.map(v=>`
+    <div class="vcard ${v.bloque?'blq':''} ${selId===v.id?'sel':''}" onclick="selV(${v.id})">
+      <div class="udot u-${v.urgence}"></div>
+      <div>
+        <div class="vi-immat">${v.immat} <span style="font-size:11px;font-weight:400;color:var(--color-text-tertiary)">${v.flotte||''}</span></div>
+        <div class="vi-meta">${v.dimension||''} · <span style="color:${PARCS[v.parc]||'#888'}">${v.parc}</span></div>
+        <div class="vi-tags">
+          ${v.dimension?'<span class="tag tag-dim">'+v.dimension+'</span>':''}
+          ${v.position?'<span class="tag tag-pos">'+v.position+'</span>':''}
+          ${v.preco?'<span class="tag tag-preco">Préco</span>':''}
+        </div>
+      </div>
+      <div style="text-align:right">
+        <span class="sbadge s-${v.statut}">${v.statut.charAt(0).toUpperCase()+v.statut.slice(1)}</span>
+      </div>
+      <div><button class="ibtn dng" title="${v.bloque?'Débloquer':'Bloquer'}" onclick="event.stopPropagation();toggleBlq(${v.id})">${v.bloque?'🔓':'🔒'}</button></div>
+    </div>`).join('');
+}
+
+function updateStats(){
+  const d=curParc==='all'?vehicles:vehicles.filter(v=>v.parc===curParc);
+  document.getElementById('cnt-c').textContent=d.filter(v=>v.urgence==='critique').length;
+  document.getElementById('cnt-h').textContent=d.filter(v=>v.urgence==='haute').length;
+  document.getElementById('cnt-b').textContent=d.filter(v=>v.bloque).length;
+  document.getElementById('cnt-t').textContent=d.length;
+}
+
+function selV(id){
+  selId=id; render();
+  const v=vehicles.find(x=>x.id===id); if(!v)return;
+  document.getElementById('panel-body').innerHTML=`
+    <div class="fg">
+      <div style="font-size:13px;font-weight:500">${v.immat} <span style="font-size:11px;font-weight:400;color:var(--color-text-tertiary)">${v.flotte||''}</span></div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">${v.parc} · ${v.dimension||''}</div>
+    </div>
+    <div class="fg">
+      <label class="fl">Urgence</label>
+      <div class="urgs">
+        <button class="uo ${v.urgence==='critique'?'sc-':''}" onclick="setUrg(${id},'critique',this)">Critique</button>
+        <button class="uo ${v.urgence==='haute'?'sh':''}" onclick="setUrg(${id},'haute',this)">Haute</button>
+        <button class="uo ${v.urgence==='normale'?'sn':''}" onclick="setUrg(${id},'normale',this)">Normale</button>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">Observation</label>
+      <div style="font-size:12px;padding:6px 9px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)">${v.observation||'—'}</div>
+    </div>
+    <div class="fg">
+      <label class="fl">Préconisation</label>
+      <div style="font-size:12px;padding:6px 9px;background:#FCEBEB;border-radius:var(--border-radius-md);color:#791F1F">${v.preco||'—'}</div>
+    </div>
+    <div class="fg">
+      <label class="fl">Position</label>
+      <div style="font-size:12px;color:var(--color-text-primary)">${v.position||'—'}</div>
+    </div>
+    <div class="divider"></div>
+    <div class="fg">
+      <label class="fl">Destinataire</label>
+      <input class="fi" id="mail-to" value="responsable.${(v.parc||'parc').toLowerCase().replace(/[^a-z]/g,'')}@berto-groupe.fr" oninput="updMail(${id})">
+    </div>
+    <div class="fg">
+      <label class="fl">Date souhaitée</label>
+      <input class="fi" type="date" id="mail-date" oninput="updMail(${id})">
+    </div>
+    <div class="fg">
+      <label class="fl">Remarques</label>
+      <textarea class="fta" id="mail-extra" oninput="updMail(${id})" placeholder="Précisions..."></textarea>
+    </div>
+    <div class="fg">
+      <label class="fl">Aperçu email</label>
+      <div class="mprev" id="mprev"></div>
+    </div>
+    <div class="pfoot" style="margin:0 -1rem -1rem;padding:.875rem 1rem">
+      <button class="btn" style="flex:1" onclick="copyMail()">Copier email</button>
+      <button class="btn primary" style="flex:1" onclick="sendBlq(${id})">${v.bloque?'Débloquer':'Confirmer blocage'}</button>
+    </div>`;
+  const tom=new Date(); tom.setDate(tom.getDate()+1);
+  document.getElementById('mail-date').value=tom.toISOString().split('T')[0];
+  updMail(id);
+}
+
+function genMail(v,date,extra){
+  const urg={critique:'URGENTE — intervention immédiate',haute:'Priorité haute',normale:'Priorité normale'};
+  return `Objet : Demande de blocage véhicule — ${v.immat}
+
+Bonjour,
+
+Nous vous demandons d'immobiliser le véhicule suivant pour intervention :
+
+  Immatriculation : ${v.immat}
+  N° de flotte    : ${v.flotte||'—'}
+  Dimension pneu  : ${v.dimension||'—'}
+  Position        : ${v.position||'—'}
+  Urgence         : ${urg[v.urgence]}
+
+Observation : ${v.observation||'—'}
+Préconisation : ${v.preco||'—'}
+
+Date souhaitée d'immobilisation : ${date||'À définir'}
+${extra?'\nRemarques : '+extra:''}
+Merci de confirmer la disponibilité du véhicule.
+
+Cordialement,
+Service planification Euromaster`;
+}
+
+function updMail(id){
+  const v=vehicles.find(x=>x.id===id); if(!v)return;
+  const date=document.getElementById('mail-date')?.value;
+  const extra=document.getElementById('mail-extra')?.value;
+  const p=document.getElementById('mprev'); if(p) p.textContent=genMail(v,date,extra);
+}
+
+function copyMail(){
+  const p=document.getElementById('mprev'); if(!p)return;
+  navigator.clipboard.writeText(p.textContent).then(()=>toast('Email copié !'));
+}
+
+function sendBlq(id){
+  const v=vehicles.find(x=>x.id===id); if(!v)return;
+  v.bloque=!v.bloque; v.statut=v.bloque?'bloque':'attente';
+  toast(v.bloque?`${v.immat} marqué bloqué`:`${v.immat} débloqué`);
+  render(); selV(id);
+}
+
+function toggleBlq(id){
+  const v=vehicles.find(x=>x.id===id); if(!v)return;
+  v.bloque=!v.bloque; v.statut=v.bloque?'bloque':'attente';
+  toast(v.bloque?`${v.immat} bloqué`:`${v.immat} débloqué`);
+  render(); if(selId===id)selV(id);
+}
+
+function setUrg(id,u,btn){
+  const v=vehicles.find(x=>x.id===id); if(!v)return;
+  v.urgence=u;
+  btn.closest('.urgs').querySelectorAll('.uo').forEach(b=>b.className='uo');
+  btn.className='uo '+(u==='critique'?'sc-':u==='haute'?'sh':'sn');
+  render(); updMail(id);
+}
+
+function fParc(p,btn){
+  curParc=p;
+  document.querySelectorAll('.parc-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('parc-title').textContent=p==='all'?'Tous les parcs':p;
+  render();
+}
+
+function fFilt(f,btn){
+  curFilt=f;
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+function clearSel(){
+  selId=null; render();
+  document.getElementById('panel-body').innerHTML='<div class="empty">Sélectionner un véhicule<br>pour générer l\'email de blocage</div>';
+}
+
+function bloquerSel(){
+  if(!selId){toast('Sélectionner un véhicule d\'abord');return;}
+  sendBlq(selId);
+}
+
+function addManual(){
+  const immat=prompt('Immatriculation :'); if(!immat)return;
+  const flotte=prompt('N° de flotte :'); 
+  const dim=prompt('Dimension pneu :');
+  const obs=prompt('Observation :');
+  const preco=prompt('Préconisation :');
+  const pos=prompt('Position :');
+  vehicles.push({id:Date.now(),immat:immat.toUpperCase(),flotte:flotte||'',parc:curParc==='all'?'Lyon-Est':curParc,urgence:'normale',statut:'nouveau',bloque:false,dimension:dim||'',observation:obs||'',preco:preco||'',position:pos||''});
+  render(); toast(`${immat.toUpperCase()} ajouté`);
+}
+
+function openImport(){document.getElementById('imp-modal').classList.add('show');}
+function closeImport(){document.getElementById('imp-modal').classList.remove('show');parsedRows=[];resetImportUI();}
+
+function resetImportUI(){
+  document.getElementById('imp-preview').style.display='none';
+  document.getElementById('imp-confirm').style.display='none';
+  document.getElementById('pdf-progress').style.display='none';
+  document.getElementById('paste-preview').style.display='none';
+}
+
+function switchTab(t,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  ['pdf','paste','demo'].forEach(id=>document.getElementById('tab-'+id).style.display=id===t?'block':'none');
+  document.getElementById('demo-btn').style.display=t==='demo'?'inline-block':'none';
+  document.getElementById('imp-confirm').style.display='none';
+  document.getElementById('imp-preview').style.display='none';
+}
+
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.remove('drag');
+  const f=e.dataTransfer.files[0]; if(f)handleFile(f);
+}
+
+async function handleFile(file){
+  if(!file)return;
+  const prog=document.getElementById('pdf-progress');
+  const status=document.getElementById('pdf-status');
+  const bar=document.getElementById('prog-bar');
+  prog.style.display='block'; bar.style.width='10%';
+  status.textContent='Lecture du fichier '+file.name+' ...';
+
+  try{
+    let rows=[];
+    if(file.name.endsWith('.pdf')){
+      bar.style.width='30%';
+      const buf=await file.arrayBuffer();
+      bar.style.width='50%';
+      status.textContent='Extraction du texte PDF...';
+      const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+      let allText='';
+      for(let i=1;i<=pdf.numPages;i++){
+        const page=await pdf.getPage(i);
+        const tc=await page.getTextContent();
+        const lineMap={};
+        tc.items.forEach(item=>{
+          const y=Math.round(item.transform[5]);
+          if(!lineMap[y])lineMap[y]=[];
+          lineMap[y].push({x:Math.round(item.transform[4]),text:item.str});
+        });
+        const ys=Object.keys(lineMap).map(Number).sort((a,b)=>b-a);
+        ys.forEach(y=>{
+          const cells=lineMap[y].sort((a,b)=>a.x-b.x).map(c=>c.text.trim()).filter(Boolean);
+          if(cells.length>1)allText+=cells.join('\t')+'\n';
+          else if(cells.length===1)allText+=cells[0]+'\n';
+        });
+      }
+      bar.style.width='70%';
+      rows=parseText(allText);
+    } else {
+      const txt=await file.text();
+      rows=parseText(txt);
+    }
+    bar.style.width='90%';
+    parsedRows=rows;
+    showPreview(rows);
+    bar.style.width='100%';
+    status.textContent=rows.length+' véhicule(s) détecté(s)';
+  }catch(e){
+    status.textContent='Erreur lecture : '+e.message;
+    console.error(e);
+  }
+}
+
+function parseText(txt){
+  const lines=txt.split('\n').map(l=>l.trim()).filter(Boolean);
+  const rows=[];
+  const sepReg=/\t|;|\|/;
+  const immatReg=/^[A-Z]{2}[-\s]?\d{3}[-\s]?[A-Z]{2}$/i;
+  for(const line of lines){
+    const cells=line.split(sepReg).map(c=>c.trim());
+    if(cells.length<2)continue;
+    const immat=cells.find(c=>immatReg.test(c.replace(/\s/g,'').replace(/-/g,'-')));
+    if(!immat)continue;
+    const idx=cells.indexOf(immat);
+    rows.push({
+      immat:immat.toUpperCase().replace(/\s/g,'-'),
+      flotte:cells[idx+1]||'',
+      dimension:cells[idx+2]||'',
+      observation:cells[idx+3]||'',
+      preco:cells[idx+4]||'',
+      position:cells[idx+5]||''
+    });
+  }
+  return rows;
+}
+
+function parsePaste(){
+  const txt=document.getElementById('paste-area').value;
+  const rows=parseText(txt);
+  parsedRows=rows;
+  showPreview(rows);
+  const prev=document.getElementById('paste-preview');
+  prev.style.display='block';
+  document.getElementById('paste-count').textContent=rows.length+' ligne(s) détectée(s)';
+  const tbl=document.getElementById('prev-tbl');
+  renderPreviewTable(tbl,rows);
+}
+
+function showPreview(rows){
+  const div=document.getElementById('imp-preview');
+  const tbl=document.getElementById('imp-tbl');
+  if(!rows.length){toast('Aucune immatriculation détectée');return;}
+  div.style.display='block';
+  document.getElementById('imp-count').textContent=rows.length+' véhicule(s) prêt(s) à importer';
+  renderPreviewTable(tbl,rows);
+  document.getElementById('imp-confirm').style.display='inline-block';
+}
+
+function renderPreviewTable(tbl,rows){
+  const cols=['immat','flotte','dimension','observation','preco','position'];
+  const heads=['Immat','N° Flotte','Dimension','Observation','Préco','Position'];
+  tbl.innerHTML='<tr>'+heads.map(h=>`<th style="width:${h==='Observation'||h==='Préco'?'22':'12'}%">${h}</th>`).join('')+'</tr>'+
+    rows.slice(0,5).map(r=>'<tr>'+cols.map(c=>`<td>${r[c]||'—'}</td>`).join('')+'</tr>').join('')+
+    (rows.length>5?`<tr><td colspan="6" style="color:var(--color-text-tertiary);font-style:italic">...et ${rows.length-5} autre(s)</td></tr>`:'');
+}
+
+function confirmImport(){
+  const parc=document.getElementById('imp-parc').value;
+  const urgMap=(obs,preco)=>{
+    const txt=(obs+' '+preco).toLowerCase();
+    if(txt.includes('urgent')||txt.includes('éclaté')||txt.includes('fuite')||txt.includes('1mm')||txt.includes('frein'))return'critique';
+    if(txt.includes('usure')||txt.includes('2mm')||txt.includes('3mm')||txt.includes('dépassé')||txt.includes('manquant'))return'haute';
+    return'normale';
+  };
+  parsedRows.forEach(r=>{
+    vehicles.push({id:Date.now()+Math.random(),immat:r.immat,flotte:r.flotte,parc:parc,urgence:urgMap(r.observation,r.preco),statut:'nouveau',bloque:false,dimension:r.dimension,observation:r.observation,preco:r.preco,position:r.position});
+  });
+  closeImport();
+  render();
+  toast(parsedRows.length+' véhicule(s) importé(s) sur '+parc);
+}
+
+function loadDemo(){
+  vehicles=[...DEMO];
+  closeImport();
+  render();
+  toast('Données démo chargées');
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+document.getElementById('cur-date').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+document.getElementById('tab-paste').style.display='none';
+document.getElementById('tab-demo').style.display='none';
+loadDemo();
+</script>
